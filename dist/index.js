@@ -306,7 +306,6 @@ MetadataRowImpl.css = `
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
   justify-content: start;
-  font-size: 0.833rem;  
 }  
 
 .meta-item {  
@@ -318,53 +317,42 @@ MetadataRowImpl.css = `
 gap: 0.3rem;
 }
 
-.tag-link {  
-  color: var(--secondary);  
-  text-decoration: underline;  
-}  
-
 .meta-item.status {
   position: relative;
   cursor: help;
 }
 
 .status-tooltip {
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
   position: absolute;
   left: 0;
   top: 100%;
   box-shadow: 2px 3px 5px #000;
   padding: 0.4rem 0.8rem;
-  background: var(--tertiary);
-  color: var(--light);
   border-radius: 5px;
   white-space: nowrap;
   pointer-events: auto;
-  z-index: 10;
-  opacity: 0;
-  transform: translateY(-4px);
-  visibility: hidden;
-  transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
-  a {
-  color: inherit;
-  font-weight: 400;
-  }
 }
 
 .meta-item.status:hover .status-tooltip,
 .meta-item.status:focus-within .status-tooltip {
   opacity: 1;
-  transform: translateY(0);
   visibility: visible;
+  transform: translateY(0);
   transition: opacity 160ms ease, transform 160ms ease, visibility 0s;
 }
 
 .meta-item.status::after {
   content: "";
-  width: 120%;
-  height: 50%;
   position: absolute;
   top: 100%;
   left: -10%;
+  height: 50%;
+  width: 120%;
 }
 `;
 var MetadataRow = (() => MetadataRowImpl);

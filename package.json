@@ -1,6 +1,6 @@
 {
   "name": "metadata-row",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
   "type": "module",
   "license": "MIT",
