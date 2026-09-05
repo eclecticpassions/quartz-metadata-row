@@ -1,66 +1,94 @@
 import { type QuartzComponent, type QuartzComponentConstructor, type QuartzComponentProps } from "@quartz-community/types"
-import { formatDate } from "@quartz-community/utils/date"
 import { resolveRelative } from "@quartz-community/utils/path"  
 import { h } from "preact"
 import readingTime from "reading-time"  
   
-const MetadataRowImpl: QuartzComponent = (props: QuartzComponentProps) => {  
-  const { fileData } = props  
-  const frontmatter = (fileData.frontmatter as Record<string, any>) || {}  
-  const metaItems: any[] = []  
-  
-  // Show created date  
-  const createdDate = fileData.dates?.created  
-  if (createdDate) {  
-    const dateStr = formatDate(new Date(createdDate), props.cfg?.locale)  
-      
-    // Add modified date in parentheses if present and different from created  
-    const modifiedDate = fileData.dates?.modified  
-    if (modifiedDate && new Date(modifiedDate).getTime() !== new Date(createdDate).getTime()) {  
-      const modifiedStr = formatDate(new Date(modifiedDate), props.cfg?.locale)  
-      metaItems.push(h("span", { class: "meta-item" }, `${dateStr} (updated: ${modifiedStr})`))  
-    } else {  
-      metaItems.push(h("span", { class: "meta-item" }, dateStr))  
-    }  
-  }  
-  
-  // Calculate word count and show reading time  
-  if (fileData.text) {  
-    const { minutes } = readingTime(fileData.text)  
-    const wordCount = fileData.text.split(/\s+/).filter(Boolean).length  
-    metaItems.push(h("span", { class: "meta-item" }, `${wordCount} words (${Math.ceil(minutes)} mins)`))  
-  }  
+// Helper to check if modified date is the same day, if so skip
+const sameDay = (a: Date, b: Date) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
-  // Render tags as clickable links with # prefix  
-  if (frontmatter.tags) {  
-    const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [frontmatter.tags]  
-    const tagLinks = tags.map((tag: string) => {  
-      const tagHref = resolveRelative(fileData.slug!, `tags/${tag}` as any)  
-      return h("a", {   
-        class: "internal tag-link",  
-        href: tagHref  
-      }, `${tag}`)  
-    })  
-    metaItems.push(h("span", { class: "meta-item tags" }, ...tagLinks))  
-  }  
-  
-// Status custom frontmatter property
-  if (frontmatter.status) {  
-    const statusValue = Array.isArray(frontmatter.status) ? frontmatter.status : String(frontmatter.status)  
+const MetadataRowImpl: QuartzComponent = (props: QuartzComponentProps) => {
+  const { fileData } = props;
+  const frontmatter = (fileData.frontmatter as Record<string, any>) || {};
+  const metaItems: any[] = [];
+
+  // Custom YYYY-MM-DD date formatter
+  function myFormatDate(d: Date): string {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  }
+
+  // Show created date
+  const createdDate = fileData.dates?.created;
+  if (createdDate) {
+    const created = new Date(createdDate);
+    const dateStr = myFormatDate(created);
     
-  metaItems.push(
-    h("span", { class: "meta-item status" }, [
-      h("span", { class: "meta-item" }, statusValue),
-      h("span", { class: "status-tooltip" }, [
-        "This is the ",
-        h("a", { href: "/about/#note-status" }, "status label")
+    // Add modified date in parentheses if present AND not same day as creation
+    const modifiedDate = fileData.dates?.modified;
+    if (modifiedDate) {
+      const modified = new Date(modifiedDate);
+
+      if (!sameDay(modified, created)) {
+        const modifiedStr = myFormatDate(modified);
+        metaItems.push(h("span", { class: "meta-item" }, `${dateStr} (modified: ${modifiedStr})`));
+      } else {
+        metaItems.push(h("span", { class: "meta-item" }, dateStr));
+      }
+    } else {
+      metaItems.push(h("span", { class: "meta-item" }, dateStr));
+    }
+  }
+
+  // Calculate word count and show reading time
+  if (fileData.text) {
+    const { minutes } = readingTime(fileData.text);
+    const wordCount = fileData.text.split(/\s+/).filter(Boolean).length;
+    metaItems.push(
+      h("span", { class: "meta-item" }, `${wordCount} words (${Math.ceil(minutes)} mins)`),
+    );
+  }
+
+  // Render tags as clickable links with # prefix
+  if (frontmatter.tags) {
+    const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [frontmatter.tags];
+    const tagLinks = tags.map((tag: string) => {
+      const tagHref = resolveRelative(fileData.slug!, `tags/${tag}` as any);
+      return h(
+        "a",
+        {
+          class: "internal tag-link",
+          href: tagHref,
+        },
+        `${tag}`,
+      );
+    });
+    metaItems.push(h("span", { class: "meta-item tags" }, ...tagLinks));
+  }
+
+  // Status custom frontmatter property
+  if (frontmatter.status) {
+    const statusValue = Array.isArray(frontmatter.status)
+      ? frontmatter.status
+      : String(frontmatter.status);
+
+    metaItems.push(
+      h("span", { class: "meta-item status" }, [
+        h("span", { class: "meta-item" }, statusValue),
+        h("span", { class: "status-tooltip" }, [
+          "This is the ",
+          h("a", { href: "/about/#note-status" }, "status label"),
+        ]),
       ]),
-    ])
-  )
-}
-  
-  return h("div", { class: "metadata-row" }, ...metaItems)  
-}  
+    );
+  }
+
+  return h("div", { class: "metadata-row" }, ...metaItems);
+};;  
   
 MetadataRowImpl.css = `  
 .metadata-row {  
