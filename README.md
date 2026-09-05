@@ -24,20 +24,20 @@ Extra features:
 
 1. To install this plugin to your Quartz site, run:
 
-    `npx quartz plugin install github:eclecticpassions/metadata-row`
+    `npx quartz plugin add github:eclecticpassions/quartz-metadata-row`
 
 2. To update the plugin, run it with the `--latest` flag like:
 
-    `npx quartz plugin install --latest github:eclecticpassions/metadata-row`
+    `npx quartz plugin install --latest github:eclecticpassions/quartz-metadata-row`
 
 3. Change the `quartz.config.yaml` file to the following:
 
     ```yaml
-    - source: github:eclecticpassions/metadata-row
+    - source: github:eclecticpassions/quartz-metadata-row
       enabled: true
       layout:
-        position: beforeBody 
-        priority: 20 # Change the priority (or position) to adjust where the metadata-row is rendered in your Quartz layout
+        position: beforeBody
+        priority: 30# Change the priority (or position) to adjust where the metadata-row is rendered in your Quartz layout
     ```
 
 ## Disclaimer
