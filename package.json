@@ -1,6 +1,6 @@
 {
   "name": "quartz-metadata-row",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
   "type": "module",
   "license": "MIT",
@@ -110,8 +110,8 @@
     }
   },
   "engines": {
-    "node": ">=22",
-    "npm": ">=10.9.2"
+    "node": ">=26",
+    "npm": ">=11.19.0"
   },
   "allowScripts": {
     "@parcel/watcher": true,
