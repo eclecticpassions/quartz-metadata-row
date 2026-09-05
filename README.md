@@ -1,23 +1,24 @@
 # Minimal Properties and Metadata Layout for Quartz
 
-I created this Quartz plugin as I wanted a minimal, one-liner below the page heading showing a note's metadata. By default, Quartz 5 shows a table for properties (from parameters in the front matter) and date + read time is managed by `github:quartz-community/content-meta` separately. Personally I thought this looked clunky and took up a lot of space.
+This Quartz plugin was created as I wanted a minimal, one-liner below the page heading showing a note's metadata. By default, Quartz v5 shows a table for properties (from parameters in the front matter) with date & read time managed by `github:quartz-community/content-meta` separately. Personally I thought this looked clunky and took up a lot of space.
 
 ## Function
 
-This plugin `metadata-row` displays the following information:
+The `metadata-row` plugin displays the following information:
 
 1. Creation date
-2. Modified date (if present)
+2. Modified date (if present and **not** the same as creation date)
 3. Word count
 4. Estimated read time (min)
 5. Tags (from front matter, if used)
-6. Status (custom front matter parameter, if used)
+6. Status (a custom front matter parameter, if used)
 
 Extra features:
 
 - Status has a tooltip on hover with CSS
 - Tags are clickable
 - If viewport width is narrow, the metadata will wrap
+- Custom date format: YYYY-MM-DD instead of default: DD-mmmm-YYYY
 
 ## Install
 
@@ -53,7 +54,6 @@ Extra features:
 - @quartz-community/utils
 - preact
 - reading-time
-
 
 *Below is the README included in the Quartz plugin template.*
 
