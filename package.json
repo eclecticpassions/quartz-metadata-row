@@ -1,6 +1,6 @@
 {
   "name": "metadata-row",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
   "type": "module",
   "license": "MIT",
@@ -23,19 +23,19 @@
     "LICENSE",
     "CHANGELOG.md"
   ],
-  "exports": {  
-    ".": {  
-      "import": "./dist/index.js",  
-      "types": "./dist/index.d.ts"  
-    },  
-    "./components": {  
-      "import": "./dist/index.js",  
-      "types": "./dist/index.d.ts"  
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./components": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",  
-  "types": "dist/index.d.ts",  
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
@@ -49,7 +49,7 @@
   "peerDependencies": {
     "preact": "^10.0.0",
     "vfile": "^6.0.3",
-    "@quartz-community/utils": "github:quartz-community/utils"  
+    "@quartz-community/utils": "github:quartz-community/utils"
   },
   "peerDependenciesMeta": {
     "preact": {
@@ -59,8 +59,8 @@
       "optional": true
     }
   },
-  "dependencies": {  
-    "@quartz-community/types": "github:quartz-community/types", 
+  "dependencies": {
+    "@quartz-community/types": "github:quartz-community/types",
     "preact": "^10.0.0",
     "reading-time": "^1.5.0"
   },
@@ -89,26 +89,33 @@
     "vfile": "^6.0.3",
     "vitest": "^4.1.10"
   },
-  "quartz": {  
-    "name": "metadata-row",  
-    "displayName": "Metadata Row",  
-     "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
-    "version": "1.0.0",  
+  "quartz": {
+    "name": "metadata-row",
+    "displayName": "Metadata Row",
+    "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
+    "version": "1.0.0",
     "quartzVersion": ">=5.0.0",
-    "category": ["component"],  
-    "components": {  
-      "MetadataRow": {  
-        "name": "MetadataRow",  
-        "displayName": "Metadata Row",  
-        "description": "Minimal metadata row component",  
-        "version": "1.0.0",  
-        "defaultPosition": "beforeBody",  
-        "defaultPriority": 15  
-      }  
-    }  
-  },  
+    "category": [
+      "component"
+    ],
+    "components": {
+      "MetadataRow": {
+        "name": "MetadataRow",
+        "displayName": "Metadata Row",
+        "description": "Minimal metadata row component",
+        "version": "1.0.0",
+        "defaultPosition": "beforeBody",
+        "defaultPriority": 15
+      }
+    }
+  },
   "engines": {
     "node": ">=22",
     "npm": ">=10.9.2"
+  },
+  "allowScripts": {
+    "@parcel/watcher": true,
+    "fsevents@2.3.3": true,
+    "esbuild@0.27.2": true
   }
 }

@@ -159,15 +159,6 @@ var require_reading_time2 = __commonJS({
   }
 });
 
-// node_modules/@quartz-community/utils/dist/date.js
-function formatDate(d2, locale = "en-US") {
-  return d2.toLocaleDateString(locale, {
-    year: "numeric",
-    month: "short",
-    day: "2-digit"
-  });
-}
-
 // node_modules/@quartz-community/utils/dist/path.js
 function simplifySlug(fp) {
   const res = stripSlashes(trimSuffix(fp, "index"), true);
@@ -244,17 +235,30 @@ n = v.slice, l = { __e: function(n2, l2, u2, t2) {
 
 // src/index.ts
 var import_reading_time = __toESM(require_reading_time2());
+var sameDay = (a2, b) => a2.getFullYear() === b.getFullYear() && a2.getMonth() === b.getMonth() && a2.getDate() === b.getDate();
 var MetadataRowImpl = (props) => {
   const { fileData } = props;
   const frontmatter = fileData.frontmatter || {};
   const metaItems = [];
+  function myFormatDate(d2) {
+    const y2 = d2.getFullYear();
+    const m2 = String(d2.getMonth() + 1).padStart(2, "0");
+    const day = String(d2.getDate()).padStart(2, "0");
+    return `${y2}-${m2}-${day}`;
+  }
   const createdDate = fileData.dates?.created;
   if (createdDate) {
-    const dateStr = formatDate(new Date(createdDate), props.cfg?.locale);
+    const created = new Date(createdDate);
+    const dateStr = myFormatDate(created);
     const modifiedDate = fileData.dates?.modified;
-    if (modifiedDate && new Date(modifiedDate).getTime() !== new Date(createdDate).getTime()) {
-      const modifiedStr = formatDate(new Date(modifiedDate), props.cfg?.locale);
-      metaItems.push(_("span", { class: "meta-item" }, `${dateStr} (updated: ${modifiedStr})`));
+    if (modifiedDate) {
+      const modified = new Date(modifiedDate);
+      if (!sameDay(modified, created)) {
+        const modifiedStr = myFormatDate(modified);
+        metaItems.push(_("span", { class: "meta-item" }, `${dateStr} (modified: ${modifiedStr})`));
+      } else {
+        metaItems.push(_("span", { class: "meta-item" }, dateStr));
+      }
     } else {
       metaItems.push(_("span", { class: "meta-item" }, dateStr));
     }
@@ -262,16 +266,22 @@ var MetadataRowImpl = (props) => {
   if (fileData.text) {
     const { minutes } = (0, import_reading_time.default)(fileData.text);
     const wordCount = fileData.text.split(/\s+/).filter(Boolean).length;
-    metaItems.push(_("span", { class: "meta-item" }, `${wordCount} words (${Math.ceil(minutes)} mins)`));
+    metaItems.push(
+      _("span", { class: "meta-item" }, `${wordCount} words (${Math.ceil(minutes)} mins)`)
+    );
   }
   if (frontmatter.tags) {
     const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [frontmatter.tags];
     const tagLinks = tags.map((tag) => {
       const tagHref = resolveRelative(fileData.slug, `tags/${tag}`);
-      return _("a", {
-        class: "internal tag-link",
-        href: tagHref
-      }, `${tag}`);
+      return _(
+        "a",
+        {
+          class: "internal tag-link",
+          href: tagHref
+        },
+        `${tag}`
+      );
     });
     metaItems.push(_("span", { class: "meta-item tags" }, ...tagLinks));
   }
