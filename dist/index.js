@@ -291,8 +291,7 @@ var MetadataRowImpl = (props) => {
       _("span", { class: "meta-item status" }, [
         _("span", { class: "meta-item" }, statusValue),
         _("span", { class: "status-tooltip" }, [
-          "This is the ",
-          _("a", { href: "/about/#note-status" }, "status label")
+          _("a", { href: "/about/#note-status" }, "Status label")
         ])
       ])
     );

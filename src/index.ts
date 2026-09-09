@@ -80,8 +80,7 @@ const MetadataRowImpl: QuartzComponent = (props: QuartzComponentProps) => {
       h("span", { class: "meta-item status" }, [
         h("span", { class: "meta-item" }, statusValue),
         h("span", { class: "status-tooltip" }, [
-          "This is the ",
-          h("a", { href: "/about/#note-status" }, "status label"),
+          h("a", { href: "/about/#note-status" }, "Status label"),
         ]),
       ]),
     );
