@@ -1,6 +1,6 @@
 {
-  "name": "quartz-metadata-row",
-  "version": "0.1.3",
+  "name": "@eclecticpassions/quartz-metadata-row",
+  "version": "0.1.4",
   "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
   "type": "module",
   "license": "MIT",
@@ -8,7 +8,7 @@
   "homepage": "https://burgeonlab.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eclecticpassions/quartz-metadata-row"
+    "url": "git+https://github.com/eclecticpassions/quartz-metadata-row.git"
   },
   "keywords": [
     "quartz",
