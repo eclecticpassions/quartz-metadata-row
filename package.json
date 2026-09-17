@@ -1,6 +1,6 @@
 {
   "name": "@eclecticpassions/quartz-metadata-row",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Displays date, last mod, word count, read time, and custom frontmatter in a minimal row",
   "type": "module",
   "license": "MIT",
